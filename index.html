@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <!-- Loading notice -->
+  <style>
+        #loading {
+            position: absolute;
+            top: 40%;
+            width: 33%;
+            left: 33%;
+            text-align: center;
+            background-color: #CCC;
+            border-radius: 10px;
+            padding: 20px;
+            animation: loading 2s alternate infinite;
+            border: 1px solid #000;
+        }
+        @keyframes loading {
+            from {
+                background-color: #CCC;
+            }
+            to {
+                background-color: #0C0;
+            }
+        }
+    </style>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="Write, run, debug and share python code in your browser" />
+    <meta name="author" content="pddring">
+
+    <title>Create with code</title>
+
+    <!-- See http://blog.withcode.uk/about/license-and-acknowledgements/ for libraries used-->
+    <link rel="stylesheet" href="styles.css">
+    <script src="lib/ace/ace.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="lib/lib.js"></script>
+    <script src="lib/skulpt/skulpt.min.js"></script>
+    <script src="lib/skulpt/skulpt-stdlib.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="lib/jq/jquery.ui.touch-punch.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+
+	<!-- Animated link-->
+    <div>
+        <a class="nounderline" href="https://create.withcode.uk" target="_blank">
+To save and share your code please visit <a href="https://create.withcode.uk" target="_blank">create.withcode.uk</a>. Tutorials and resources available at <a href="http://blog.withcode.uk" target="_blank">blog.withcode.uk</a>
+        <h1 id="title" onmouseover="animateTitle('create.withcode.uk', 'title_text')"><span class="brackets">{</span><span id="title_text">withcode.uk</span><span class="brackets">}</span></h1>
+        </a>
+    </div>
+
+
+
+    <div id="loading">
+        Loading... please wait
+    </div>
+    <div id="holder" class="holder" style="display:none">
+
+        <span id="file_tabs"><span class="file_tab file_tab_selected">mycode.py</span></span>
+        <pre>
+<div id="editor">
+
+
+
+
+</div>
+</pre>
+    </div>
+    <script>
+        PythonIDE.files['mycode.py'] = 'from microbit import *\ndisplay.scroll("Hello world")';
+
+        PythonIDE.currentFile = 'mycode.py';
+        PythonIDE.updateFileTabs();
+    </script>
+
+
+    <div id="hintBar"></div>
+    <span id="footer">
+
+	<img alt="Click to show/hide tool buttons" title="Show/hide tools" class="toolButton" src="media/tools.png" id="btn_tools">
+	<img title="Run" alt="Click to run your code" id="btn_run" class="toolButton hiddenButton" src="media/play.png">
+	<img alt="Stop running" title="Stop" class="toolButton hiddenButton" src="media/stop.png" id="btn_stopRunning">
+	<img title="Console" alt="Show python output" id="btn_show_output" class="toolButton hiddenButton" src="media/console.png">
+	<img title="Settings" alt="Customize the screen" id="btn_show_settings" class="toolButton hiddenButton" src="media/settings.png">
+	<img title="Code recovery" alt="Recover your code from a previous session" id="btn_show_recover" class="toolButton hiddenButton" src="media/recover.png">
+</span>
+    <div id="recover" title="Recover" style="display:none"></div>
+    <div id="dlg" title="mycode.py" style="display:none">
+        <div id="output"></div>
+    </div>
+
+    <div id="file_settings" title="File" style="display:none">
+        <p>Be careful: if you choose to delete a file, you will not be able to recover it unless you've saved a copy</p>
+        <label for="txt_file_name">Rename file:</label>
+        <input id="txt_file_name" name="txt_file_name" value="">
+        <button id="btn_file_rename">Rename</button>
+        <button id="btn_file_delete">Delete</button>
+        <button id="btn_file_cancel">Cancel</button>
+    </div>
+
+    <div id="settings" title="Settings" style="display:none">
+        <h3>Text size</h3>
+        <label for="txt_code_size">Code font size:</label>
+        <input type="text" id="txt_code_size" readonly>
+        <div id="slider_code_size" class="slider"></div>
+        <label for="txt_output_size">Output font size:</label>
+        <input type="text" id="txt_output_size" readonly>
+        <div id="slider_output_size" class="slider"></div>
+
+        <h3>Editor colours</h3>
+        <div id="radio_code_style">
+            <p>Lighter colours are great for coding at day time. Some people prefer coding at night:</p>
+            <input type="radio" id="radio_code_style_light" name="radio_code_style" checked="checked">
+            <label for="radio_code_style_light">Light</label>
+            <input type="radio" id="radio_code_style_dusk" name="radio_code_style">
+            <label for="radio_code_style_dusk">Dusk</label>
+            <input type="radio" id="radio_code_style_dark" name="radio_code_style">
+            <label for="radio_code_style_dark">Dark</label>
+        </div>
+
+        <h3>Output console colours</h3>
+        <p>Darker colours look more like a command prompt. Lighter colours look more like an app window:</p>
+        <div id="radio_output_style">
+            <input type="radio" id="radio_output_style_light" name="radio_output_style">
+            <label for="radio_output_style_light">Light</label>
+            <input type="radio" id="radio_output_style_dusk" name="radio_output_style">
+            <label for="radio_output_style_dusk">Dusk</label>
+            <input type="radio" id="radio_output_style_dark" name="radio_output_style" checked="checked">
+            <label for="radio_output_style_dark">Dark</label>
+        </div>
+
+        <h3>Run mode</h3>
+        <p>Running your code line by line can be a useful way of finding bugs</p>
+        <div id="radio_run_mode">
+            <input type="radio" id="radio_run_mode_all" name="radio_run_mode" checked="checked">
+            <label for="radio_run_mode_all">Whole program</label>
+            <input type="radio" id="radio_run_mode_single" name="radio_run_mode">
+            <label for="radio_run_mode_single">Step through single line</label>
+            <input type="radio" id="radio_run_mode_anim" name="radio_run_mode">
+            <label for="radio_run_mode_anim">Animate line by line</label>
+        </div>
+        <p>Choosing a longer time between animating each line helps you understand and explain your code as it runs</p>
+        <label for="txt_step_anim_time">Time delay between running each line:</label>
+        <input type="text" id="txt_step_anim_time" readonly>
+        <div id="slider_step_anim_time" class="slider"></div>
+
+        <p>Making your output window transparent helps you see your code underneath</p>
+        <label for="txt_output_transparency">Output window transparency</label>
+        <input type="text" id="txt_output_transparency" readonly>
+        <div id="slider_output_transparency" class="slider"></div>
+
+    </div>
+
+    </div>
+    <script>
+        var toolsVisible = false;
+
+		// load python IDE
+        $(function() {
+            $('#loading').hide();
+            $('#holder').show();
+            PythonIDE.init();
+        });
+    </script>
+
+</body>
+
+</html>
