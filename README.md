@@ -15,5 +15,7 @@ It's designed for students and teachers learning or experimenting with python co
 
 This github repro includes most of the source code for create.withcode.uk so that it will run without needing to be hosted on a webserver. It doesn't include the code to be able to save or share python code.
 
-Try it here: [Create.withcode.uk](https://create.withcode.uk)
+Try the full version (with ability to save and share) here: [Create.withcode.uk](https://create.withcode.uk)
+
+Or, try a live copy of this github project (client side only - no save / share) here: [tools.withcode.uk/create](https://tools.withcode.uk/create)
 
