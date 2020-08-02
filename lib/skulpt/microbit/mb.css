@@ -98,7 +98,7 @@
 	height: 100px;
 	line-height: 100px;
 	text-align: center;
-	vertical-align: center;
+	vertical-align: middle;
 	background-image: url('compassbk.jpg');
 	position: relative;
 }
@@ -119,6 +119,10 @@
 	display: inline-block;
 	margin: 0px 10px 0px 10px;
 }
+.mb_slider_acc {
+    display: inline-block;
+    min-width: 2.5em;
+}
 #mb_gesture_list {
 	border-style: solid;
 	border-width: 1px;
@@ -127,16 +131,16 @@
 }
 .mb_current_gesture {
 	color: #F00;
-	margin; 1em;
+	margin: 1em;
 }
 .mb_active_gesture_down {
 	transform: rotate(180deg);
 }
 .mb_active_gesture_left, .mb_active_gesture_right {
-	-webkit-transform: rotateY(80deg);transform: rotateY(80deg);
+	transform: rotateY(80deg);
 }
 .mb_active_gesture_facedown {
-	-webkit-transform: rotateY(180deg);transform: rotateY(180deg);
+	transform: rotateY(180deg);
 }
 .mb_active_gesture_freefall {
 	transform: scale(0.2,0.2);
